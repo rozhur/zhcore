@@ -1,0 +1,21 @@
+{
+  "name": "src/vendor",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "xxxl",
+      "email": "email@zhdev.ru"
+    }
+  ],
+  "require": {
+    "workerman/workerman": "^4.0",
+    "wikimedia/less.php": "^3.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "classes\\": "classes/"
+    }
+  }
+}

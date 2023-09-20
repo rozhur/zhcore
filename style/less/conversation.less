@@ -1,0 +1,383 @@
+@_fixed-width: (@_max-width - (@_padding-medium * 2));
+@_fixed-width-with-side: (@_max-width - @_side-width) - (@_padding-medium * 2);
+.nav {
+    position: fixed;
+    width: 100%;
+}
+.body {
+    position: relative;
+    padding-top: 38px;
+}
+.body-main, .body-content {
+    height: 100%;
+}
+.body-inner {
+    @media (max-width: @_responsive-wide) {
+        padding-top: 0;
+    }
+}
+
+.block-conversation {
+    flex-grow: 1;
+    .block-header {
+        background: #fff;
+        text-align: center;
+        box-shadow: 0 -1px 0 @_border-color inset;
+        .button.button--back {
+            background: transparent;
+            color: black;
+            left: 0;
+            padding: 15px;
+            position: absolute;
+            &:hover {
+                background: linear-gradient(90deg, fade(gray, 15%), 65%, rgba(0,0,0,0));
+            }
+        }
+    }
+    &.is-hide {
+        display: none;
+    }
+}
+.block-dialogs {
+    position: fixed;
+    width: @_fixed-width;
+    &.is-selected {
+        height: 100%;
+        width: @_side-width;
+        border-right: 1px solid @_border-color;
+        @media (max-width: @_responsive-wide) {
+            width: 100%;
+            margin-left: -@_padding-medium;
+            display: none;
+        }
+    }
+    @media (max-width: @_responsive-wide) {
+        width: 100%;
+    }
+    a:hover {
+        text-decoration: none;
+    }
+}
+.block-messages {
+    width: @_fixed-width-with-side;
+    padding-top: 48px;
+    overflow-wrap: break-word;
+    @media (max-width: @_responsive-wide) {
+        width: 100vw;
+    }
+}
+
+.messages-container {
+    padding: @_padding-medium;
+}
+.block-conversation {
+    display: none;
+    flex-direction: row;
+    align-items: flex-end;
+    height: 100%;
+    margin-left: @_side-width;
+    .block-header {
+        position: fixed;
+        top: 48px;
+        width: @_fixed-width-with-side;
+    }
+    &.is-active, &.is-loading {
+        display: flex;
+    }
+    &.is-loading {
+        align-items: center;
+        .block-messages {
+            * {
+                display: none;
+            }
+        }
+        .block-messages {
+            margin: 0 auto;
+            width: 25px;
+            height: 25px;
+            padding: 0;
+            animation: spin 1s linear infinite;
+            border-radius: 25px;
+            &:after {
+                font-family: 'Font Awesome 5 Pro';
+                color: #c1c1c1;
+                content: "\f3f4";
+                font-size: 25px;
+                line-height: 1;
+            }
+        }
+    }
+    @media (max-width: @_responsive-wide) {
+        margin-left: -@_padding-medium;
+        .block-header {
+            width: 100%;
+            top: 38px;
+        }
+    }
+}
+.header, .nav {
+    z-index: 2;
+}
+.block-inline {
+    height: 100%;
+    &:before {
+        content: "";
+        position: fixed;
+        background: #fff;
+        height: 30px;
+        width: @_fixed-width;
+        margin-top: -30px;
+    }
+}
+.message-editor {
+    .input {
+        font-size: 14px;
+    }
+    @media (max-width: @_responsive-wide) {
+        width: 100%;
+        padding: 0;
+        .input {
+            padding: 15px;
+            padding-right: 0;
+            border-color: transparent;
+        }
+        .button {
+            &, &:hover, &:active {
+                background: #fff;
+            }
+            &:before {
+                font-family: 'Font Awesome 5 Pro';
+                content: "\f1d8";
+                color: lighten(@_primary-color, 15%);
+                font-size: 20px;
+                font-weight: 600;
+            }
+            .button-text {
+                display: none;
+            }
+        }
+        &.is-empty {
+            .button {
+                &:before {
+                    color: #bababa;
+                }
+            }
+        }
+    }
+}
+.message-user:after {
+    content: ":";
+}
+.message-date {
+    font-size: 12px;
+    padding-left: 5px;
+    color: #979797;
+}
+.typing-message {
+    color: #979797;
+    padding-top: 5px;
+}
+
+.conv-item {
+    display: flex;
+    align-items: center;
+    .message-date {
+        margin-left: auto;
+        min-width: 140px;
+        text-align: right;
+        .is-selected & {
+            display: none;
+        }
+    }
+    &:not([data-unread="0"]):not(:hover):not(.is-selected) {
+        background: fade(@_primary-color, 7%);
+    }
+    .message-user {
+        font-weight: 600;
+    }
+    .message-text {
+        color: #333333;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        margin-left: 5px;
+        br {
+            display: none;
+        }
+    }
+    &:after {
+        content: attr(data-unread);
+        margin-left: @_padding-medium;
+        .is-selected & {
+            margin-left: auto;
+        }
+        min-width: 14px;
+        padding: 2px;
+        font-size: 11px;
+        border-radius: 25px;
+        text-align: center;
+        color: #fff;
+        font-weight: 700;
+        background: @_primary-color;
+    }
+    &[data-unread="0"]:after {
+        display: none;
+    }
+    .message-typing {
+        &:after {
+            content: "";
+            animation: dots 1s linear infinite;
+        }
+        & + .message-text {
+            display: none;
+        }
+    }
+}
+@_message-color: rgb(241,241,241);
+@_message-color--you: rgb(229,237,243);
+@_message-highlight: #fae2e2;
+.message-item {
+    display: block;
+    width: 100%;
+    &:after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+    &:not(:last-child) {
+        margin-bottom: 5px;
+    }
+    &.is-loading {
+        .message-date {
+            &:after {
+                content: "\f017";
+                font-family: 'Font Awesome 5 Pro';
+            }
+        }
+    }
+    .message {
+        z-index: -1;
+        padding: @_padding-medium;
+        max-width: 80%;
+        float: left;
+        display: inline-block;
+        background: @_message-color;
+        transition: background 1s ease;
+
+        .message-user {
+            display: none;
+        }
+
+        position: relative;
+        margin-left: 5px;
+
+        &:before {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 0;
+            bottom: 0;
+            left: -10px;
+            z-index: -2;
+            border-top: 20px solid transparent;
+            border-bottom: 0px solid transparent;
+            border-right: 20px solid @_message-color;
+            transition: border-right-color 1s ease;
+        }
+
+        .is-highlight& {
+            background: @_message-highlight;
+            transition: none;
+            &:before {
+                border-right-color: @_message-highlight;
+                transition: none;
+            }
+        }
+
+        .is-you& {
+            margin-left: 0;
+            margin-right: 5px;
+            float: right;
+            background: @_message-color--you;
+
+            &:before {
+                display: none;
+            }
+
+            &:after {
+                content: "";
+                position: absolute;
+                width: 0;
+                height: 0;
+                bottom: 0;
+                right: -10px;
+                z-index: -2;
+                border-top: 20px solid transparent;
+                border-bottom: 0px solid transparent;
+                border-left: 20px solid @_message-color--you;
+            }
+        }
+    }
+}
+.message-date-separator {
+    text-align: center;
+    color: gray;
+    font-size: 13px;
+    margin: 15px 0;
+    &:before {
+        content: attr(data-date);
+    }
+}
+.message-item {
+    .message-date {
+        float: right;
+        position: relative;
+        top: 5px;
+        .is-you& {
+            margin-right: 25px;
+        }
+    }
+
+    &.is-loading.is-you .message-date {
+        margin-right: 0;
+    }
+    &:not(.is-loading) {
+        .message-date:after {
+            font-family: 'Font Awesome 5 Pro';
+            content: "\f00c";
+            position: absolute;
+            padding-left: 5px;
+            right: -25px;
+            bottom: 0;
+            font-size: 13px;
+            display: none;
+            .is-you& {
+                display: block;
+            }
+        }
+        &:not(.is-unread) .message-date:before {
+            font-family: 'Font Awesome 5 Pro';
+            content: "\f00c";
+            position: absolute;
+            right: -20px;
+            bottom: 0;
+            font-size: 13px;
+            display: none;
+            .is-you& {
+                display: block;
+            }
+        }
+    }
+}
+
+@keyframes dots {
+    0% {
+        content: ".";
+    }
+    50% {
+        content: "..";
+    }
+    100% {
+        content: "...";
+    }
+}
