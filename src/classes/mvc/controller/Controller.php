@@ -26,12 +26,12 @@ abstract class Controller
 
     abstract public function actionIndex($params = []);
 
-    public function redirect($url = null, $code = 200)
+    public function redirect($url = null, $code = 302)
     {
         return \Core::app()->getRouter()->redirect($url, $code);
     }
 
-    public function previousRedirect($code = 200)
+    public function previousRedirect($code = 302)
     {
         return \Core::app()->getRouter()->redirect($_SESSION['prev_url'], $code);
     }
