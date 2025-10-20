@@ -16,7 +16,14 @@ class Router
     public function __construct(App $app)
     {
         $this->app = $app;
-        $this->root = dirname($_SERVER['PHP_SELF']);
+
+        $root = dirname($_SERVER['PHP_SELF']);
+        if ($root === '/')
+        {
+            $root = '';
+        }
+
+        $this->root = $root;
     }
 
     /** @return Response */
@@ -72,7 +79,7 @@ class Router
         $actionName = str_replace('_', ' ', strtolower($actionName));
 
         $method = 'action' . str_replace(' ', '', ucwords($actionName));
-        $correctUri = $root . '/' . ($controllerName === 'index' || $controllerName === 'controller' || !class_exists($controllerClass) ? '' : $controllerName) . ($actionName === 'index' || !is_callable([$controllerClass, $method]) ? '' : '/' . strtolower($actionName)) . ($params['GET'] ? '?' . http_build_query($params['GET']) : '');
+        $correctUri = $root . '/' . ($controllerName === 'index' || $controllerName === 'controller' || !class_exists($controllerClass) ? '' : $controllerName) . ($actionName === 'index' || !method_exists($controllerClass, $method) ? '' : '/' . strtolower($actionName)) . ($params['GET'] ? '?' . http_build_query($params['GET']) : '');
 
         if ($_SERVER['REQUEST_URI'] != $correctUri) {
             $this->app->getResponse()->redirect($correctUri)->send();
