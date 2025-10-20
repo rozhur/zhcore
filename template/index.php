@@ -1,5 +1,5 @@
 <div class="block">
-    <span>Добро пожаловать на сайт ZhDevelopment<?php echo $visitor->user_id ? ', <b>' . $visitor->username . '</b>' : '' ?>!</span>
+    <span>Добро пожаловать на сайт ZhCore<?php echo $visitor->user_id ? ', <b>' . $visitor->username . '</b>' : '' ?>!</span>
 </div>
 
 <div class="block">
