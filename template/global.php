@@ -12,11 +12,10 @@
     <div class="nav">
         <div class="nav-inner">
             <ul class="nav-list">
-                <li><a class="nav-link" href="<?php echo $root ?>">Главная</a></li>
+                <li><a class="nav-link" href="<?php echo $root ?>/">Главная</a></li>
             </ul>
             <div class="nav-opposite">
                 <div class="navgroup">
-                    <span class="navgroup-link"><?php echo $queries . '/' . round($time * 100, 2) ?></span>
                     <?php
                     if ($template != 'login')
                     {
@@ -76,11 +75,11 @@
 </script>
 <script src="<?php echo $root ?>/js/lib/jquery.min.js"></script>
 <script src="<?php
-$core_js = '/js/core.min.js';
+$core_js = '/js/core.js';
 echo $root . $core_js . '?_v=' . md5(filemtime(Core::getRootDir() . $core_js)); ?>"></script>
 <?php if ($extra_js != null) echo $extra_js ?>
 <script src="<?php
-$ws_js = '/js/websocket.min.js';
+$ws_js = '/js/websocket.js';
 echo $root . $ws_js . '?_v=' . md5(filemtime(Core::getRootDir() . $ws_js)); ?>"></script>
 </body>
 </html>
