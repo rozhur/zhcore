@@ -78,7 +78,7 @@ class View
         $sidenav = $this->getTemplate($sidenav, 'sidenav');
         $sidebar = $this->getTemplate($sidebar, 'sidebar');
 
-        $extra_js = '/js/' . $template . '.min.js';
+        $extra_js = '/js/' . $template . '.js';
         if (!file_exists(Core::getRootDir() . $extra_js))
         {
             $extra_js = null;
