@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="theme-color" content="#2c5bb8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title><?php echo $title ?? 'ZhDevelopment Studio' ?></title>
+    <title><?php echo $title ?? ($visitor->user_id ? '' : 'ZhCore | ') . 'Главная' ?></title>
     <link rel="stylesheet" href="<?php echo $root . '/css.php' . ($style ? '?' . http_build_query($style) : '') ?>">
 </head>
 <body data-template="<?php echo $template ?>">
