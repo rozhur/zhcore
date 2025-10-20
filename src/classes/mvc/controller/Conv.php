@@ -146,8 +146,6 @@ class Conv extends Controller
         $conv->setLastMessageId($message->message_id);
         $conv->save();
 
-        $root = $this->app->getRouter()->root;
-
         $_SESSION['lastMessage_' . $conv->conversation_id] = '';
 
         $this->reply(['target' => [$visitor->user_id, $receiver->user_id], 'data' => ['type' => 'new_message', 'conv_id' => $conv->conversation_id, 'message' => $message->decode()]]);
